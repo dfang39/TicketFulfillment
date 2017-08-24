@@ -60,8 +60,9 @@ donation_objects.sort(key=lambda r: r.tickets_donated)
 
 
 print([request.tickets_requested for request in request_objects])
+print(sum([request.tickets_requested for request in request_objects]))
 print([donation.tickets_donated for donation in donation_objects])
-
+print(sum([donation.tickets_donated for donation in donation_objects]))
 
 class Assignment(object):
     def __init__(self, request_id="", donation_id="", quantity=""):
@@ -119,8 +120,8 @@ for request in request_objects:
                     requested_tickets -= assigned_tickets
                     print(request.id_number, 'had', request.tickets_requested, 'in the request and was assigned',
                           assigned_tickets, 'tickets from', donation.id_number,
-                          'taking all of the donation and leaving', adults, 'chaperones and', requested_tickets,
-                          'tickets left on the request')
+                          ', taking all of the donation and leaving', adults, 'chaperones and', requested_tickets,
+                          'tickets on the request')
                     request.tickets_requested -= assigned_tickets
                     donation.tickets_donated -= assigned_tickets
                     donated_tickets -= assigned_tickets
@@ -154,7 +155,7 @@ for request in request_objects:
                 donation.tickets_donated -= assigned_tickets
                 donated_tickets -= assigned_tickets
                 print(request.id_number, 'had', requested_tickets, 'in the request and was assigned', assigned_tickets,
-                      'tickets from', donation.id_number, 'fulfilling the request and leaving', donated_tickets, 'in the donation')
+                      'tickets from', donation.id_number, ', fulfilling the request and leaving', donated_tickets, 'in the donation')
                 request.tickets_requested -= assigned_tickets
                 requested_tickets -= assigned_tickets
                 if requested_tickets == 0:
@@ -162,31 +163,12 @@ for request in request_objects:
 
     print('---')
 
-for request in request_objects:
-    requested_tickets = request.tickets_requested
-    adults = request.number_adults
-    if requested_tickets > 0:
-        print(request.id_number, 'initially requested', requested_tickets, 'and had', adults, 'chaperones')
-        for donation in donation_objects:
-            donated_tickets = donation.tickets_donated
-            if requested_tickets <= donated_tickets:
-                assigned_tickets = requested_tickets
-                request.ticket_assignments.append(Assignment(request.id_number, donation.id_number, assigned_tickets))
-                request.number_of_assignments += 1
-                donation.ticket_assignments.append(Assignment(request.id_number, donation.id_number, assigned_tickets))
-                donation.tickets_donated -= assigned_tickets
-                donated_tickets -= assigned_tickets
-                print(request.id_number, 'had', requested_tickets, 'in the request and was assigned', assigned_tickets,
-                      'tickets from', donation.id_number, 'fulfilling the request and leaving', donated_tickets, 'in the donation')
-                request.tickets_requested -= assigned_tickets
-                requested_tickets -= assigned_tickets
-                if requested_tickets == 0:
-                    break
 
-    print("---")
 
 print([request.tickets_requested for request in request_objects])
+print(sum([request.tickets_requested for request in request_objects]))
 print([donation.tickets_donated for donation in donation_objects])
+print(sum([donation.tickets_donated for donation in donation_objects]))
 
 
 print(len([request for request in request_objects if request.tickets_requested == 0]))
